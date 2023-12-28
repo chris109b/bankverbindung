@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <title>Bankverbindung</title>
+    <meta name="description" content="GiroCode bereitstellen, Überweisung erhalten">
+    <meta name="author" content="Christian Beuschel <c.beuschel@humboldt-institut.org>">
+
+	<meta name="viewport" content="width = device-width, initial-scale = 1.0, user-scalable = no">
+	<meta name="theme-color" content="#c87137">
+
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-title" content="Visitenkarte">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	
+	<link rel="shortcut icon" href="favicon.ico">
+	<link rel="icon" type="image/png" href="img/app-icon-192.png" sizes="192x192">
+	<link rel="icon" type="image/png" href="img/app-icon-512.png" sizes="512x512">
+	<link rel="icon" type="image/svg+xml" href="img/app-icon.svg" sizes="any">
+
+	<link rel="apple-touch-icon" href="img/app-icon-192.png" sizes="192x192">
+	<link rel="apple-touch-icon" href="img/app-icon-512.png" sizes="512x512">
+	<link rel="shortcut icon" href="img/app-icon-192.png" sizes="192x192">
+	
+	<link rel="manifest" href="manifest.json">
+	<link rel="stylesheet" href="css/index.css">
+
+	<script type="text/javascript" src="js/qrcode.min.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript">
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.register('sw.js').then(registration => {
+				console.log('Service Worker registrated.');
+			}).catch(error => {
+				console.log('Service Worker registration failed!');
+				console.log(error);
+			});
+		}
+	</script>
+</head>
+<body>
+<div class="window">
+<div class="page" id="girocode_page">
+	<div class="text_section" id="girocode_text">
+	</div>
+	<div class="qr_section">
+		<div class="qrcode_display" id="girocode_qrcode">
+		</div>
+	</div>
+</div>
+<div class="settings_page" id="payment_settings_page">
+	<div class="scroll">
+		<div class="scroll_content">
+			<form>
+				<h2 class="settings">Zahlungsinformationen</h2>
+				<p class="settings">
+					<label class="settings">Verwendungszweck</label>
+					<input class="settings" id="subject_input" type="text" name="subject" maxlength="140" value="">
+				</p>
+				<p class="settings">
+					<label class="settings">Betrag in  <span id="currency_display"></span></label>
+					<input class="settings" id="amount_input" type="number" name="amount" value="">
+				</p>
+				<p class="settings">
+
+				</p>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="settings_page" id="bank_account_settings_page">
+	<div class="scroll">
+		<div class="scroll_content">
+			<form>
+				<h2 class="settings">Bankverbindung</h2>
+				<p class="settings">
+					<label class="settings">Name des Kontoinhabers</label>
+					<input class="settings" id="recipient_input" type="text" name="recipient" maxlength="70" value="">
+				</p>
+				<p class="settings">
+					<label class="settings">BIC der Bank</label>
+					<input class="settings" id="bic_input" type="text" name="bic" maxlength="11" value="">
+				</p>
+				<p class="settings">
+					<label class="settings">IBAN</label>
+					<input class="settings" id="iban_input" type="text" name="iban" maxlength="22" value="">
+				</p>
+				<p class="settings">
+					<label class="settings">Währung</label>
+					<select class="settings" id="currency_input" type="text" name="currency">
+					    <option value="BGN">BGN - Bulgarische Lew</option>
+					    <option value="CHF">CHF - Schweizer Franken</option>
+					    <option value="CHF">CZK - Tschechische Krone</option>
+					    <option value="DKK">DKK - Dänische Krone</option>
+					    <option value="EUR">EUR - Euro</option>
+					    <option value="GBP">GBP - Britisches Pfund Sterling</option>
+					    <option value="HUF">HUF - Ungarischer Forint</option>
+					    <option value="ISK">ISK - Isländische Krone</option>
+					    <option value="NOK">NOK - Norwegische Krone</option>
+					    <option value="PLN">PLN - Polnischer Zloty</option>
+					    <option value="RON">RON - Neuer Rumänischer Leu</option>
+					    <option value="SEK">SEK - Schwedische Krone</option>
+					 </select>
+				</p>
+				<h2 class="settings">Informationen</h2>
+				<p class="settings">
+					Diese Applikation steht kostenlos zur Verfügung. Die Applikation dient dazu SEPA Überweisungsdaten als GiroCode (EPC QR Code) anzuzeigen. Die meisten Mobile Banking Apps von europäischen Banken sind in der Lage den Code zu Scannen. Bei den deutschen Volksbanken Reifeisenbanken findet man die Funktion z.B. unter "Überweiseung, Fotoüberweisung".  
+				</p>
+				<p class="settings">
+                    Mit dem Scannen eines GiroCodes wird lediglich das Überweisungsformular automatisch und ohne Tippfehler ausgefüllt. Die Überweisung wird erst ausgeführt, wenn das ausgefüllte Formular auch tatsächlich abegesendet wird und die Überweisung mit einer TAN bestätigt wird.
+				</p>
+				<p class="settings">
+					Alle eingegeben Daten werden offline auf dem Gerät und in dem Webbrowser gespeichert, in dem sie eingegeben wurden.
+				</p>
+				<p class="settings">
+					Die Daten werden auch in Textform angezeigt. Sollte also jemand nicht in der Lage sein, einen QR-Code zu scannen, können die Daten manuell eingegeben werden.
+				</p>
+				<h2 class="settings">Installation</h2>
+				<p class="settings">
+					Diese Anwendung ist eine sogenannte "Progressive Web App". Sie kann wie eine reguläre App aus dem App-Store benutzt werden.
+				</p>
+				<p class="settings">
+					Für die Installation auf <b>iOS-Geräten</b> (iPhone, iPad und iPod Touch) öffnet man diese Anwendung als Web-Seite in Safari.	
+					<ul class="settings">
+						<li>Dort tippt man auf das "Teilen"-Symbol (mittig, unten).</li>
+						<li>In der Teilen-Funktion wählt man "Zum Home-Bildschirm".</li>
+						<li>Im nachfolgenden Bestätigungsdialog kann man den Namen der App ändern und anschließend wählt man "Hinzufügen" (rechts, oben).</li>
+						<li>Die Installation ist damit abgeschlossen.</li>
+					</ul>
+				</p>
+				<p class="settings">
+					Auf einem <b>Android-Gerät</b> mit Chrome-Browser öffnet man die Anwendung als Web-Seite in Chrome. 
+					<ul class="settings">
+						<li>Dort öffnet man das Menü (recht, oben, drei Punkte untereinander).</li>
+						<li>Im Menü wählt man die Option "Zum Startbildschirm hinzufügen".</li>
+						<li>Im nachfolgenden Bestätigungsdialog tippt man auf "Hinzufügen".</li>
+						<li>Die Installation ist damit abgeschlossen.</li>
+					</ul>
+				</p>
+				<p class="settings">
+					Die Installation funktioiert auf anderen Geräten ähnlich.
+				</p>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="menu"><img alt="GiroCode" class="menu" id="girocode_btn" src="img/qr_code_scan.svg"><img alt="Payment" class="menu" id="payment_settings_btn" src="img/payment.svg"><img alt="Bankverbindung" class="menu" id="bank_account_settings_btn" src="img/bank.svg"></div>
+</div>
+<script>
+    var app = new Application();
+    app.run();
+</script>
+</body>
+</html>

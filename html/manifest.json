@@ -1,0 +1,26 @@
+{
+    "short_name": "Bankverbindung",
+    "name": "Bankverbindung",
+    "description": "GiroCode bereitstellen, Überweisung erhalten",
+	"version": "1.2",
+    "icons": [
+      {
+        "src": "./img/app-icon-192.png",
+        "type": "image/png",
+        "sizes": "192x192",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "./img/app-icon-512.png",
+        "type": "image/png",
+        "sizes": "512x512",
+        "purpose": "any maskable"
+      }
+    ],
+    "lang": "de-DE",
+    "start_url": ".",
+    "scope": "./",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#c87137"
+  }
